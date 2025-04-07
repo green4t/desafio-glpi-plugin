@@ -106,21 +106,32 @@ Aptidões para criar e manter aplicações de alta qualidade:
 3. Para parar o ambiente, utilize o comando:
 
     ```sh
-    docker-compose down -d
+    docker-compose stop
     ```
 
 4. Se precisar recriar o ambiente, siga estes passos:
 
     ```sh
-    docker-compose down 
-    docker-compose rm
+    docker-compose down -v 
     docker-compose up -d
     ```
 
 5. Para acompanhar os logs do ambiente, utilize o comando:
 
+    1. Logs do ambiente:
     ```sh
     docker-compose logs -f 
+    ```
+
+    2. PHP errors:
+    ```sh
+    docker compose exec glpi_app tail -f /var/log/glpi/php-errors.log
+    ```
+
+6. Para listar os volumes do docker, utilize o comando:
+
+    ```sh
+    docker compose volume ls
     ```
 
 ### Acessando o ambiente de testes:
