@@ -1,13 +1,14 @@
-version: '3.9'
 services:
   glpi_app:
-    image: sdbrasil/glpi:10.0.14
+    image: sdbrasil/glpi:10.0.18
     container_name: glpi-10
     entrypoint: /entrypoint.sh
     environment:
       - TZ=America/Sao_Paulo 
       - DB_HOST=db-glpi-10
       - GLPI_HOME=/usr/share/glpi/
+      - GLPI_VAR_DIR=/var/lib/glpi/files
+      - GLPI_CONFIG_DIR=/etc/glpi
       - DB_PORT=3306
       - DB_NAME=glpi
       - DB_USER=glpi
@@ -15,6 +16,10 @@ services:
     volumes:
        - ./entrypoint.sh:/entrypoint.sh
        - ./plugins:/usr/share/glpi/plugins
+       - glpi_config:/etc/glpi
+       - glpi_documents:/var/lib/glpi/files/data-documents
+       - glpi_marketplace:/usr/share/glpi/marketplace
+       - glpi_files_plugins:/var/lib/glpi/files/_plugins
     networks:
       - glpi
     ports:
@@ -38,8 +43,13 @@ services:
       - 3306:3306
     healthcheck:
             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-            timeout: 5s
+            timeout: 4s
             retries: 20
+volumes:
+  glpi_config:
+  glpi_documents:
+  glpi_marketplace:
+  glpi_files_plugins:
 
 networks:
   glpi:
